@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Management System</h1>
+        <div class="actions">
+            <button onclick="window.location.href='add-car.html'" class="btn">Add New Car</button>
+            <button onclick="exportToExcel()" class="btn">Export to Excel</button>
+        </div>
+        <div id="carList" class="car-list">
+            <!-- Cars will be displayed here -->
+        </div>
+    </div>
+    <script src="carDatabase.js"></script>
+    <script src="index.js"></script>
+</body>
+</html> 
