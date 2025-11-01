@@ -1,0 +1,24 @@
+{
+  "name": "car-management-system",
+  "version": "1.0.0",
+  "description": "A lightweight desktop-ready web app for managing car data locally.  \r Built with **HTML, CSS, and JavaScript**, using **IndexedDB** for offline storage.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --port=5500",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kahesr/car-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kahesr/car-management-system/issues"
+  },
+  "homepage": "https://github.com/kahesr/car-management-system#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

@@ -6,7 +6,7 @@ Built with **HTML, CSS, and JavaScript**, using **IndexedDB** for offline storag
 You can add, edit, delete, and export car data to Excel — all without needing a server.
 
 
-## 🧩 Features
+## ✨ Features
 - Add cars with a unique ID and maximum oil volume  
 - View all cars in a clean list  
 - Edit or delete existing cars  
@@ -21,11 +21,24 @@ You can add, edit, delete, and export car data to Excel — all without needing 
 - [SheetJS (xlsx)](https://github.com/SheetJS/sheetjs) for Excel export
 
 
-## 🖥️ Running the App
-Just open `index.html` in any modern browser.
+## 🖥️ Installation and Running
+1. Clone the repository:
+```
+git clone <your-repo-url>
+cd car-management-system
+```
+2. Install dependencies:
+```
+npm install
+```
+3. Start development server:
+```
+npm run dev
+```
+This will automatically open the app in port=5500
 
 
-## 🧠 Project Structure
+## 🧩 Project Structure
 ```
 car-management/
 │
@@ -34,7 +47,7 @@ car-management/
 ├── styles.css
 │
 └── js/
-    ├── carDatabase.js
+    ├── CarDatabase.js
     ├── index.js
     └── add-car.js
 ```

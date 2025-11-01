@@ -1,4 +1,4 @@
-class CarDatabase {
+class CarDB {
     constructor() {
         this.dbName = 'CarManagementDB';
         this.dbVersion = 1;
@@ -9,17 +9,14 @@ class CarDatabase {
 
     async init() {
         if (!window.indexedDB) {
-            console.log('IndexedDB not supported, falling back to localStorage');
+            console.warn('IndexedDB not supported, falling back to localStorage');
             return;
         }
 
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(this.dbName, this.dbVersion);
 
-            request.onerror = (event) => {
-                console.error('Database error:', event.target.error);
-                reject(event.target.error);
-            };
+            request.onerror = (event) => reject(event.target.error);
 
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
@@ -37,7 +34,7 @@ class CarDatabase {
 
     async addCar(car) {
         await this.ready;
-        
+
         if (this.db) {
             return new Promise((resolve, reject) => {
                 const transaction = this.db.transaction([this.storeName], 'readwrite');
@@ -68,7 +65,15 @@ class CarDatabase {
                 const store = transaction.objectStore(this.storeName);
                 const request = store.getAll();
 
-                request.onsuccess = () => resolve(request.result);
+                request.onsuccess = () => {
+                    const result = request.result;
+                    // If IndexedDB is empty, fallback to localStorage
+                    if(!result || result.lenght === 0) {
+                        resolve(this.getCarsFromLocalStorage());
+                    } else {
+                        resolve(result);
+                    }
+                }
                 request.onerror = () => reject(request.error);
             });
         } else {
@@ -77,10 +82,45 @@ class CarDatabase {
         }
     }
 
+    async updateCar(carId, updatedFields) {
+        await this.ready;
+        if (this.db) {
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            const request = store.get(carId);
+
+            return new Promise((resolve, reject) => {
+                request.onsuccess = () => {
+                    const car = request.result;
+                    if (!car) return reject(new Error('Car not found'));
+                    Object.assign(car, updatedFields);
+                    const updateRequest = store.put(car);
+                    updateRequest.onsuccess = () => resolve(true);
+                    updateRequest.onerror = () => reject(updateRequest.error);
+                };
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // TODO: Fallback: localStorage
+    }
+
+    async deleteCar(carId) {
+        await this.ready;
+        if (this.db) {
+            const transaction = this.db.transaction([this.storeName], 'readwrite');
+            const store = transaction.objectStore(this.storeName);
+            store.delete(carId);
+        }
+
+        // TODO: Fallback: localStorage
+
+    }
+
     getCarsFromLocalStorage() {
         const cars = localStorage.getItem('cars');
         return cars ? JSON.parse(cars) : [];
     }
 }
 
-const carDB = new CarDatabase(); 
+export const carDB = new CarDB();
