@@ -27,12 +27,14 @@ document.getElementById('carList').addEventListener('click', async (e) => {
     if (!action) return;
 
     if (action === 'delete') {
-        await carDB.deleteCar(id);
+        await carDB.removeCar(id);
+        await carDB.syncToLocalStorage();
         displayCars();
     } else if (action === 'edit') {
         const newVolume = prompt('Enter new max oil volume (L):');
         if (newVolume && !isNaN(newVolume)) {
             await carDB.updateCar(id, { oilVolume: parseFloat(newVolume) });
+            await carDB.syncToLocalStorage();
             displayCars();
         }
     }

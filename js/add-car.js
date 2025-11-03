@@ -14,9 +14,12 @@ document.getElementById('carForm').addEventListener('submit', async (e) => {
         alert('Oil volume must be a positive number');
         return;
     }
+    
+    const car = { carId, oilVolume };
 
     try {
-        await carDB.addCar({ carId, oilVolume });
+        await carDB.addCar(car);
+        await carDB.syncToLocalStorage(); // keep backup updated
         window.location.href = 'index.html';
     } catch (error) {
         alert('Error saving car: ' + error.message);
